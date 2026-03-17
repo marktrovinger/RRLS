@@ -14,6 +14,7 @@ from .pendulum import (
     RobustInvertedPendulum,
 )
 from .walker import ForceWalker2d, RobustWalker2d, Walker2dParamsBound
+from .robotics_reach import ForceReach, RobustReach
 
 __all__ = [
     "AntParamsBound",
@@ -23,6 +24,7 @@ __all__ = [
     "InvertedPendulumParamsBound",
     "Walker2dParamsBound",
     "RobustAnt",
+    "RobustReach",
     "RobustHalfCheetah",
     "RobustHopper",
     "RobustHumanoidStandUp",
@@ -34,4 +36,5 @@ __all__ = [
     "ForceHumanoidStandUp",
     "ForceInvertedPendulum",
     "ForceWalker2d",
+    "ForceReach"
 ]

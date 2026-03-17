@@ -26,7 +26,12 @@ def register_robotics_envs():
         order_enforce=False,
         disable_env_checker=True,
     )
-
+    register(
+        id = "rrls/robust-reach-v0",
+        entry_point="rrls.envs.robotics_reach:RobustReach",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
     register(
         id="rrls/robust-ant-v0",
         entry_point="rrls.envs.ant:RobustAnt",
@@ -60,6 +65,12 @@ def register_robotics_envs():
     register(
         id="rrls/force-ant-v0",
         entry_point="rrls.envs.ant:ForceAnt",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/force-reach-v0",
+        entry_point="rrls.envs.robotics_reach:ForceReach",
         order_enforce=False,
         disable_env_checker=True,
     )
@@ -595,6 +606,8 @@ def register_robotics_envs():
             "alpha": 0.1,
         },
     )
+
+    
 
 
 register_robotics_envs()
