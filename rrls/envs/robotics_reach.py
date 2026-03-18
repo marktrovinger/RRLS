@@ -9,6 +9,11 @@ import gymnasium_robotics
 
 gym.register_envs(gymnasium_robotics)
 
+DEFAULT_PARAMS = {
+    "upperarm_roll_link": 2.3311,
+    "forearm_roll_link": 1.6563
+}
+
 class RobustReach(Wrapper):
 
     metadata = {  # type: ignore
@@ -22,23 +27,27 @@ class RobustReach(Wrapper):
         self,
         **kwargs: dict[str, Any],
     ):
-        super().__init__(env = gym.make("FetchReachDense-v0", **kwargs))
+        super().__init__(env = gym.make("FetchReachDense-v4", **kwargs))
     
     def set_params(
             self,
-            upperarm_mass: float | None = None,
-            lowerarm_mass: float | None = None,
+            upperarm_roll_link_mass: float | None = None,
+            forearm_roll_link_mass: float | None = None,
 
     ):
-        self.upperarm_mass = upperarm_mass
-        self.lowerarm_mass = lowerarm_mass
+        self.upperarm_roll_link_mass = upperarm_roll_link_mass
+        self.forearm_roll_link_mass = forearm_roll_link_mass
+        self._change_params(
+            upperarm_roll_link_mass=self.upperarm_roll_link_mass,
+            forearm_roll_link_mass=self.forearm_roll_link_mass
+        )
 
     def get_params(
             self,
     ):
         return{
-            "upperarm_mass": self.upperarm_mass,
-            "lowerarm_mass": self.lowerarm_mass
+            "upperarm_roll_link_mass": self.upperarm_roll_link_mass,
+            "forearm_roll_link_mass": self.forearm_roll_link_mass
         }
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -55,13 +64,13 @@ class RobustReach(Wrapper):
     
     def _change_params(
             self,
-            upperarm_mass: float | None = None,
-            lowerarm_mass: float | None = None,      
+            upperarm_roll_link_mass: float | None = None,
+            forearm_roll_link_mass: float | None = None,      
     ):
-        if self.upperarm_mass is not None:
-            self.unwrapped.model.body_mass[1] = upperarm_mass
-        if self.lowerarm_mass is not None:
-            self.unwrapped.model.body_mass[2] = upperarm_mass
+        if self.upperarm_roll_link_mass is not None:
+            self.unwrapped.model.body_mass[14] = upperarm_roll_link_mass
+        if self.forearm_roll_link_mass is not None:
+            self.unwrapped.model.body_mass[16] = forearm_roll_link_mass
     
 
 class ForceReach(Wrapper):
