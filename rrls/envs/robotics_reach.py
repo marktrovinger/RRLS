@@ -77,9 +77,9 @@ class ForceReach(Wrapper):
     """
     Force Reach environment. You can apply forces to the robot using the env.data.xfrc_applied
     attribute. The parameters are:
-        - upperarm_x
-        - upperarm_y
-        - upperarm_z
+        - upperarm_roll_link_x
+        - upperarm_roll_link_y
+        - upperarm_roll_link_z
     """
     metadata = {  # type: ignore
         "render_modes": [
@@ -95,20 +95,20 @@ class ForceReach(Wrapper):
 
     def set_params(
             self,
-            upperarm_x: float | None = None,
-            upperarm_y: float | None = None,
-            upperarm_z: float | None = None,
+            upperarm_roll_link_x: float | None = None,
+            upperarm_roll_link_y: float | None = None,
+            upperarm_roll_link_z: float | None = None,
     ):
-        self.upperarm_x = upperarm_x
-        self.upperarm_y = upperarm_y
-        self.upperarm_z = upperarm_z
+        self.upperarm_roll_link_x = upperarm_roll_link_x
+        self.upperarm_roll_link_y = upperarm_roll_link_y
+        self.upperarm_roll_link_z = upperarm_roll_link_z
         self._change_params()
 
     def get_params(self):
         return{
-            "upperarm_x": self.upperarm_x,
-            "upperarm_y": self.upperarm_y,
-            "upperarm_z": self.upperarm_z
+            "upperarm_roll_link_x": self.upperarm_roll_link_x,
+            "upperarm_roll_link_y": self.upperarm_roll_link_y,
+            "upperarm_roll_link_z": self.upperarm_roll_link_z
         }
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -125,9 +125,9 @@ class ForceReach(Wrapper):
     
     def _change_params(
             self,
-            upperarm_x: float | None = None,
-            upperarm_y: float | None = None,
-            upperarm_z: float | None = None,
+            upperarm_roll_link_x: float | None = None,
+            upperarm_roll_link_y: float | None = None,
+            upperarm_roll_link_z: float | None = None,
     ):
-        if self.upperarm_x is not None:
-            self.unwrapped.data.xfrc_applied[1, 0] = self.upperarm_x  # type: ignore
+        if self.upperarm_roll_link_x is not None:
+            self.unwrapped.data.xfrc_applied[1, 0] = self.upperarm_roll_link_x  # type: ignore
