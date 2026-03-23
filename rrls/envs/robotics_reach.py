@@ -130,4 +130,8 @@ class ForceReach(Wrapper):
             upperarm_roll_link_z: float | None = None,
     ):
         if self.upperarm_roll_link_x is not None:
-            self.unwrapped.data.xfrc_applied[1, 0] = self.upperarm_roll_link_x  # type: ignore
+            self.unwrapped.data.xfrc_applied[14, 0] = upperarm_roll_link_x  # type: ignore
+        if self.upperarm_roll_link_y is not None:
+            self.unwrapped.data.xfrc_applied[14, 1] = upperarm_roll_link_y  # type: ignore
+        if self.upperarm_roll_link_z is not None:
+            self.unwrapped.data.xfrc_applied[14, 2] = upperarm_roll_link_z  # type: ignore
