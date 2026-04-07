@@ -10,8 +10,8 @@ import gymnasium_robotics
 gym.register_envs(gymnasium_robotics)
 
 DEFAULT_PARAMS = {
-    "upperarm_roll_link": 2.3311,
-    "forearm_roll_link": 1.6563
+    "upperarm_roll_link_mass": 2.3311,
+    "forearm_roll_link_mass": 1.6563
 }
 
 class RobustReach(Wrapper):
@@ -28,6 +28,7 @@ class RobustReach(Wrapper):
         **kwargs: dict[str, Any],
     ):
         super().__init__(env = gym.make("FetchReachDense-v4", **kwargs))
+        self.set_params()
     
     def set_params(
             self,
@@ -80,6 +81,9 @@ class ForceReach(Wrapper):
         - upperarm_x
         - upperarm_y
         - upperarm_z
+        - shoulder_lift_link_x
+        - shoulder_lift_link_y
+        - shoulder_lift_link_z
     """
     metadata = {  # type: ignore
         "render_modes": [
@@ -98,17 +102,26 @@ class ForceReach(Wrapper):
             upperarm_x: float | None = None,
             upperarm_y: float | None = None,
             upperarm_z: float | None = None,
+            shoulder_lift_link_x: float | None = None,
+            shoulder_lift_link_y: float | None = None,
+            shoulder_lift_link_z: float | None = None,
     ):
         self.upperarm_x = upperarm_x
         self.upperarm_y = upperarm_y
         self.upperarm_z = upperarm_z
+        self.shoulder_lift_link_x = shoulder_lift_link_x
+        self.shoulder_lift_link_y = shoulder_lift_link_y
+        self.shoulder_lift_link_z = shoulder_lift_link_z
         self._change_params()
 
     def get_params(self):
         return{
             "upperarm_x": self.upperarm_x,
             "upperarm_y": self.upperarm_y,
-            "upperarm_z": self.upperarm_z
+            "upperarm_z": self.upperarm_z,
+            "shoulder_lift_link_x": self.shoulder_lift_link_x,
+            "shoulder_lift_link_y": self.shoulder_lift_link_y,
+            "shoulder_lift_link_z": self.shoulder_lift_link_z
         }
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -128,6 +141,11 @@ class ForceReach(Wrapper):
             upperarm_x: float | None = None,
             upperarm_y: float | None = None,
             upperarm_z: float | None = None,
+            shoulder_lift_link_x: float | None = None,
+            shoulder_lift_link_y: float | None = None,
+            shoulder_lift_link_z: float | None = None,
     ):
         if self.upperarm_x is not None:
             self.unwrapped.data.xfrc_applied[1, 0] = self.upperarm_x  # type: ignore
+        if self.shoulder_lift_link_z is not None:
+            self.unwrapped.data.xfrc_applied[13, 2] = self.shoulder_lift_link_z  # type: ignore
