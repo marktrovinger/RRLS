@@ -94,7 +94,7 @@ class ForceReach(Wrapper):
     }
 
     def __init__(self,  **kwargs: dict[str, Any]):
-        super().__init__(env = gym.make("FetchReachDense-v0", **kwargs))
+        super().__init__(env = gym.make("FetchReachDense-v4", **kwargs))
         self.set_params()
 
     def set_params(
