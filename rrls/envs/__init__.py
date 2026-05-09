@@ -14,9 +14,23 @@ from .pendulum import (
     RobustInvertedPendulum,
 )
 from .walker import ForceWalker2d, RobustWalker2d, Walker2dParamsBound
-from .robotics_reach import ForceReach, RobustReach, ForceReachDense
-from .robotics_push import ForcePushDense, ForcePush
-from .robotics_slide import ForceSlide, ForceSlideDense
+from .robotics_reach import (
+    ForceReach, 
+    ForceReachDense,
+    RobustReach
+)
+from .robotics_push import (
+    ForcePushDense, 
+    ForcePush
+)
+from .robotics_slide import (
+    ForceSlide, 
+    ForceSlideDense
+)
+from .robotics_pickandplace import (
+    ForcePickAndPlace,
+    ForcePickAndPlaceDense
+)
 
 __all__ = [
     "AntParamsBound",
@@ -43,5 +57,7 @@ __all__ = [
     "ForcePushDense",
     "ForcePush",
     "ForceSlide",
-    "ForceSlideDense"
+    "ForceSlideDense",
+    "ForcePickAndPlace",
+    "ForcePickAndPlaceDense"
 ]
