@@ -105,6 +105,18 @@ def register_robotics_envs():
         disable_env_checker=True,
     )
     register(
+        id = "rrls/force-pickandplace-v0",
+        entry_point="rrls.envs.robotics_pickandplace:ForcePickAndPlace",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/force-pickandplace-dense-v0",
+        entry_point="rrls.envs.robotics_pickandplace:ForcePickAndPlaceDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
         id="rrls/force-halfcheetah-v0",
         entry_point="rrls.envs.half_cheetah:ForceHalfCheetah",
         order_enforce=False,
