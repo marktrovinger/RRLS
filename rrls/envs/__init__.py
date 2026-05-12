@@ -34,7 +34,9 @@ from .robotics_slide import (
 )
 from .robotics_pickandplace import (
     ForcePickAndPlace,
-    ForcePickAndPlaceDense
+    ForcePickAndPlaceDense,
+    RobustPickAndPlace,
+    RobustPickAndPlaceDense
 )
 
 __all__ = [
@@ -51,6 +53,8 @@ __all__ = [
     "RobustSlideDense",
     "RobustPush",
     "RobustPushDense",
+    "RobustPickAndPlace",
+    "RobustPickAndPlaceDense",
     "RobustHalfCheetah",
     "RobustHopper",
     "RobustHumanoidStandUp",

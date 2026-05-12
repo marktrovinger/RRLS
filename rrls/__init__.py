@@ -51,6 +51,18 @@ def register_robotics_envs():
         disable_env_checker=True,
     )
     register(
+        id = "rrls/robust-pickandplace-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPickAndPlace",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-pickandplace-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPickAndPlaceDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
         id = "rrls/robust-push-v0",
         entry_point="rrls.envs.robotics_reach:RobustPush",
         order_enforce=False,

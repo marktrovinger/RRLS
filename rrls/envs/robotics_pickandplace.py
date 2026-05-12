@@ -14,6 +14,125 @@ DEFAULT_PARAMS = {
     "forearm_roll_link_mass": 1.6563
 }
 
+class RobustPickAndPlace(Wrapper):
+
+    metadata = {  # type: ignore
+        "render_modes": [
+            "human",
+            "rgb_array",
+            "depth_array",
+        ],
+    }
+    def __init__(
+        self,
+        **kwargs: dict[str, Any],
+    ):
+        super().__init__(env = gym.make("FetchPickAndPlace-v4", **kwargs))
+        self.set_params()
+    
+    def set_params(
+            self,
+            upperarm_roll_link_mass: float | None = None,
+            forearm_roll_link_mass: float | None = None,
+
+    ):
+        self.upperarm_roll_link_mass = upperarm_roll_link_mass
+        self.forearm_roll_link_mass = forearm_roll_link_mass
+        self._change_params(
+            upperarm_roll_link_mass=self.upperarm_roll_link_mass,
+            forearm_roll_link_mass=self.forearm_roll_link_mass
+        )
+
+    def get_params(
+            self,
+    ):
+        return{
+            "upperarm_roll_link_mass": self.upperarm_roll_link_mass,
+            "forearm_roll_link_mass": self.forearm_roll_link_mass
+        }
+
+    def reset(self, *, seed: int | None = None, options: dict | None = None):
+        if options is not None:
+            self.set_params(**options)
+        obs, info = self.env.reset(seed=seed, options=options)
+        info.update(self.get_params())
+        return obs, info
+
+    def step(self, action):
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        info.update(self.get_params())
+        return obs, reward, terminated, truncated, info
+    
+    def _change_params(
+            self,
+            upperarm_roll_link_mass: float | None = None,
+            forearm_roll_link_mass: float | None = None,      
+    ):
+        if self.upperarm_roll_link_mass is not None:
+            self.unwrapped.model.body_mass[14] = upperarm_roll_link_mass
+        if self.forearm_roll_link_mass is not None:
+            self.unwrapped.model.body_mass[16] = forearm_roll_link_mass
+    
+
+class RobustPickAndPlaceDense(Wrapper):
+
+    metadata = {  # type: ignore
+        "render_modes": [
+            "human",
+            "rgb_array",
+            "depth_array",
+        ],
+    }
+    def __init__(
+        self,
+        **kwargs: dict[str, Any],
+    ):
+        super().__init__(env = gym.make("FetchPickAndPlaceDense-v4", **kwargs))
+        self.set_params()
+    
+    def set_params(
+            self,
+            upperarm_roll_link_mass: float | None = None,
+            forearm_roll_link_mass: float | None = None,
+
+    ):
+        self.upperarm_roll_link_mass = upperarm_roll_link_mass
+        self.forearm_roll_link_mass = forearm_roll_link_mass
+        self._change_params(
+            upperarm_roll_link_mass=self.upperarm_roll_link_mass,
+            forearm_roll_link_mass=self.forearm_roll_link_mass
+        )
+
+    def get_params(
+            self,
+    ):
+        return{
+            "upperarm_roll_link_mass": self.upperarm_roll_link_mass,
+            "forearm_roll_link_mass": self.forearm_roll_link_mass
+        }
+
+    def reset(self, *, seed: int | None = None, options: dict | None = None):
+        if options is not None:
+            self.set_params(**options)
+        obs, info = self.env.reset(seed=seed, options=options)
+        info.update(self.get_params())
+        return obs, info
+
+    def step(self, action):
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        info.update(self.get_params())
+        return obs, reward, terminated, truncated, info
+    
+    def _change_params(
+            self,
+            upperarm_roll_link_mass: float | None = None,
+            forearm_roll_link_mass: float | None = None,      
+    ):
+        if self.upperarm_roll_link_mass is not None:
+            self.unwrapped.model.body_mass[14] = upperarm_roll_link_mass
+        if self.forearm_roll_link_mass is not None:
+            self.unwrapped.model.body_mass[16] = forearm_roll_link_mass
+
 class ForcePickAndPlaceDense(Wrapper):
     """
     Force Reach environment. You can apply forces to the robot using the env.data.xfrc_applied
