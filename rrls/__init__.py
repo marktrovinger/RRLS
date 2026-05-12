@@ -39,6 +39,18 @@ def register_robotics_envs():
         disable_env_checker=True,
     )
     register(
+        id = "rrls/robust-slide-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustSlideDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-slide-v0",
+        entry_point="rrls.envs.robotics_reach:RobustSlide",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
         id="rrls/robust-ant-v0",
         entry_point="rrls.envs.ant:RobustAnt",
         order_enforce=False,
