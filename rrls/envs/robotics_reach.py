@@ -10,8 +10,8 @@ import gymnasium_robotics
 gym.register_envs(gymnasium_robotics)
 
 DEFAULT_PARAMS = {
-    "upperarm_roll_link": 2.3311,
-    "forearm_roll_link": 1.6563
+    "upperarm_roll_link_mass": 2.3311,
+    "forearm_roll_link_mass": 1.6563
 }
 
 class RobustReach(Wrapper):
@@ -27,7 +27,8 @@ class RobustReach(Wrapper):
         self,
         **kwargs: dict[str, Any],
     ):
-        super().__init__(env = gym.make("FetchReachDense-v4", **kwargs))
+        super().__init__(env = gym.make("FetchReach-v4", **kwargs))
+        self.set_params()
     
     def set_params(
             self,
@@ -90,7 +91,7 @@ class ForceReach(Wrapper):
     }
 
     def __init__(self,  **kwargs: dict[str, Any]):
-        super().__init__(env = gym.make("FetchReachDense-v0", **kwargs))
+        super().__init__(env = gym.make("FetchReachDense-v4", **kwargs))
         self.set_params()
 
     def set_params(
