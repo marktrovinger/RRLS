@@ -17,7 +17,8 @@ from .walker import ForceWalker2d, RobustWalker2d, Walker2dParamsBound
 from .robotics_reach import (
     ForceReach, 
     ForceReachDense,
-    RobustReach
+    RobustReach,
+    RobustReachDense
 )
 from .robotics_push import (
     ForcePushDense, 
@@ -41,6 +42,7 @@ __all__ = [
     "Walker2dParamsBound",
     "RobustAnt",
     "RobustReach",
+    "RobustReachDense",
     "RobustHalfCheetah",
     "RobustHopper",
     "RobustHumanoidStandUp",
