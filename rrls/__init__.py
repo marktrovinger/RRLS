@@ -51,6 +51,18 @@ def register_robotics_envs():
         disable_env_checker=True,
     )
     register(
+        id = "rrls/robust-push-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPush",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-push-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPushDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
         id="rrls/robust-ant-v0",
         entry_point="rrls.envs.ant:RobustAnt",
         order_enforce=False,
