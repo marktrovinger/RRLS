@@ -33,6 +33,48 @@ def register_robotics_envs():
         disable_env_checker=True,
     )
     register(
+        id = "rrls/robust-reach-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustReachDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-slide-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustSlideDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-slide-v0",
+        entry_point="rrls.envs.robotics_reach:RobustSlide",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-pickandplace-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPickAndPlace",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-pickandplace-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPickAndPlaceDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-push-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPush",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
+        id = "rrls/robust-push-dense-v0",
+        entry_point="rrls.envs.robotics_reach:RobustPushDense",
+        order_enforce=False,
+        disable_env_checker=True,
+    )
+    register(
         id="rrls/robust-ant-v0",
         entry_point="rrls.envs.ant:RobustAnt",
         order_enforce=False,

@@ -17,19 +17,26 @@ from .walker import ForceWalker2d, RobustWalker2d, Walker2dParamsBound
 from .robotics_reach import (
     ForceReach, 
     ForceReachDense,
-    RobustReach
+    RobustReach,
+    RobustReachDense
 )
 from .robotics_push import (
     ForcePushDense, 
-    ForcePush
+    ForcePush,
+    RobustPush,
+    RobustPushDense
 )
 from .robotics_slide import (
     ForceSlide, 
-    ForceSlideDense
+    ForceSlideDense,
+    RobustSlide,
+    RobustSlideDense
 )
 from .robotics_pickandplace import (
     ForcePickAndPlace,
-    ForcePickAndPlaceDense
+    ForcePickAndPlaceDense,
+    RobustPickAndPlace,
+    RobustPickAndPlaceDense
 )
 
 __all__ = [
@@ -41,6 +48,13 @@ __all__ = [
     "Walker2dParamsBound",
     "RobustAnt",
     "RobustReach",
+    "RobustReachDense",
+    "RobustSlide",
+    "RobustSlideDense",
+    "RobustPush",
+    "RobustPushDense",
+    "RobustPickAndPlace",
+    "RobustPickAndPlaceDense",
     "RobustHalfCheetah",
     "RobustHopper",
     "RobustHumanoidStandUp",
