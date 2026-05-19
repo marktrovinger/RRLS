@@ -266,6 +266,12 @@ class ForceReach(Wrapper):
     def get_params(self):
         return{
             "shoulder_pan_joint": self.shoulder_pan_joint,
+            "shoulder_lift_joint": self.shoulder_lift_joint,
+            "upperarm_roll_joint": self.upperarm_roll_joint,
+            "elbow_flex_joint": self.elbow_flex_joint,
+            "forearm_roll_joint": self.forearm_roll_joint,
+            "wrist_flex_joint": self.wrist_flex_joint,
+            "wrist_roll_joint": self.wrist_roll_joint
         }
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
