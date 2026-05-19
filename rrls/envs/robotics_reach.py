@@ -137,9 +137,7 @@ class ForceReach(Wrapper):
     """
     Force Reach environment. You can apply forces to the robot using the env.data.xfrc_applied
     attribute. The parameters are:
-        - upperarm_roll_link_x
-        - upperarm_roll_link_y
-        - upperarm_roll_link_z
+        - shoulder_pan_joint
     """
     metadata = {  # type: ignore
         "render_modes": [
@@ -156,20 +154,14 @@ class ForceReach(Wrapper):
     # TODO:  correct variable names to the joints
     def set_params(
             self,
-            upperarm_roll_link_x: float | None = None,
-            upperarm_roll_link_y: float | None = None,
-            upperarm_roll_link_z: float | None = None,
+            shoulder_pan_joint: float | None = None,
     ):
-        self.upperarm_roll_link_x = upperarm_roll_link_x
-        self.upperarm_roll_link_y = upperarm_roll_link_y
-        self.upperarm_roll_link_z = upperarm_roll_link_z
+        self.shoulder_pan_joint = shoulder_pan_joint
         self._change_params()
 
     def get_params(self):
         return{
-            "upperarm_roll_link_x": self.upperarm_roll_link_x,
-            "upperarm_roll_link_y": self.upperarm_roll_link_y,
-            "upperarm_roll_link_z": self.upperarm_roll_link_z
+            "shoulder_pan_joint": self.shoulder_pan_joint,
         }
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -186,13 +178,11 @@ class ForceReach(Wrapper):
     
     def _change_params(
             self,
-            upperarm_roll_link_x: float | None = None,
-            upperarm_roll_link_y: float | None = None,
-            upperarm_roll_link_z: float | None = None,
+            shoulder_pan_joint: float | None = None,
     ):
-        if self.upperarm_roll_link_x is not None:
-            self.unwrapped.data.xfrc_applied[14, 0] = upperarm_roll_link_x  # type: ignore
-        if self.upperarm_roll_link_y is not None:
-            self.unwrapped.data.xfrc_applied[14, 1] = upperarm_roll_link_y  # type: ignore
-        if self.upperarm_roll_link_z is not None:
-            self.unwrapped.data.xfrc_applied[14, 2] = upperarm_roll_link_z  # type: ignore
+        if self.shoulder_pan_joint is not None:
+            self.unwrapped.data.qfrc_applied[6] = shoulder_pan_joint  # type: ignore
+        # if self.upperarm_roll_link_y is not None:
+        #     self.unwrapped.data.xfrc_applied[14, 1] = upperarm_roll_link_y  # type: ignore
+        # if self.upperarm_roll_link_z is not None:
+        #     self.unwrapped.data.xfrc_applied[14, 2] = upperarm_roll_link_z  # type: ignore
