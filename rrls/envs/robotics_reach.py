@@ -135,7 +135,7 @@ class RobustReachDense(Wrapper):
 
 class ForceReachDense(Wrapper):
     """
-    Force Reach environment. You can apply forces to the robot using the env.data.xfrc_applied
+    Force Reach environment. You can apply forces to the robot using the env.data.qfrc_applied
     attribute. This wraps the "dense" reward environment. The parameters are:
         - shoulder_pan_joint
         - shoulder_lift_joint
