@@ -152,7 +152,8 @@ class ForceReach(Wrapper):
     def __init__(self,  **kwargs: dict[str, Any]):
         super().__init__(env = gym.make("FetchReachDense-v4", **kwargs))
         self.set_params()
-
+    
+    # TODO:  correct variable names to the joints
     def set_params(
             self,
             upperarm_roll_link_x: float | None = None,
