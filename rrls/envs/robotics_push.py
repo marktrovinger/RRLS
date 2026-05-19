@@ -135,14 +135,15 @@ class RobustPushDense(Wrapper):
 
 class ForcePushDense(Wrapper):
     """
-    Force Reach environment. You can apply forces to the robot using the env.data.xfrc_applied
-    attribute. The parameters are:
-        - upperarm_x
-        - upperarm_y
-        - upperarm_z
-        - shoulder_lift_link_x
-        - shoulder_lift_link_y
-        - shoulder_lift_link_z
+    Force Push environment. You can apply forces to the robot using the env.data.qfrc_applied
+    attribute. This wraps the "dense" reward environment. The parameters are:
+        - shoulder_pan_joint
+        - shoulder_lift_joint
+        - upperarm_roll_joint
+        - elbow_flex_joint
+        - forearm_roll_joint
+        - wrist_flex_joint
+        - wrist_roll_joint
     """
     metadata = {  # type: ignore
         "render_modes": [
@@ -211,14 +212,15 @@ class ForcePushDense(Wrapper):
 
 class ForcePush(Wrapper):
     """
-    Force Reach environment. You can apply forces to the robot using the env.data.xfrc_applied
-    attribute. The parameters are:
-        - upperarm_x
-        - upperarm_y
-        - upperarm_z
-        - shoulder_lift_link_x
-        - shoulder_lift_link_y
-        - shoulder_lift_link_z
+    Force Push environment. You can apply forces to the robot's joints using the env.data.qfrc_applied
+    attribute. This wraps the "sparse" reward environment. The parameters are:
+        - shoulder_pan_joint
+        - shoulder_lift_joint
+        - upperarm_roll_joint
+        - elbow_flex_joint
+        - forearm_roll_joint
+        - wrist_flex_joint
+        - wrist_roll_joint
     """
     metadata = {  # type: ignore
         "render_modes": [
