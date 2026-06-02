@@ -14,6 +14,32 @@ DEFAULT_PARAMS = {
     "forearm_roll_link_mass": 1.6563
 }
 
+
+class ReachParamsBound(Enum):
+    SHOULDER_FRICTION = {
+        "shoulder_pan_joint": [-0.75, 0.85],
+        "shoulder_lift_joint": [-0.75, 0.85],
+        "upperarm_roll_joint": [-0.75, 0.85]
+    }
+    ELBOW_FRICTION = {
+        "elbow_flex_joint": [-0.75, 0.85],
+        "forearm_roll_joint": [-0.75, 0.85]
+    }
+    WRIST_FRICTION = {
+        "wrist_flex_joint": [-0.75, 0.85],
+        "wrist_roll_joint": [-0.75, 0.85],
+    }
+    WHOLE_ARM_FRICTION = {
+        "shoulder_pan_joint": [-0.75, 0.85],
+        "shoulder_lift_joint": [-0.75, 0.85],
+        "upperarm_roll_joint": [-0.75, 0.85],
+        "elbow_flex_joint": [-0.75, 0.85],
+        "forearm_roll_joint": [-0.75, 0.85],
+        "wrist_flex_joint": [-0.75, 0.85],
+        "wrist_roll_joint": [-0.75, 0.85],
+    }
+
+
 class RobustReach(Wrapper):
 
     metadata = {  # type: ignore
@@ -213,17 +239,17 @@ class ForceReachDense(Wrapper):
         if self.shoulder_pan_joint is not None:
             self.unwrapped.data.qfrc_applied[6] = shoulder_pan_joint  # type: ignore
         if self.shoulder_lift_joint is not None:
-             self.unwrapped.data.qfrc_applied[7] = shoulder_lift_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[7] = shoulder_lift_joint  # type: ignore
         if self.upperarm_roll_joint is not None:
-             self.unwrapped.data.qfrc_applied[8] = upperarm_roll_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[8] = upperarm_roll_joint  # type: ignore
         if self.elbow_flex_joint is not None:
-             self.unwrapped.data.qfrc_applied[9] = elbow_flex_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[9] = elbow_flex_joint  # type: ignore
         if self.forearm_roll_joint is not None:
-             self.unwrapped.data.qfrc_applied[10] = forearm_roll_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[10] = forearm_roll_joint  # type: ignore
         if self.wrist_flex_joint is not None:
-             self.unwrapped.data.qfrc_applied[11] = wrist_flex_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[11] = wrist_flex_joint  # type: ignore
         if self.wrist_roll_joint is not None:
-             self.unwrapped.data.qfrc_applied[12] = wrist_roll_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[12] = wrist_roll_joint  # type: ignore
 
 class ForceReach(Wrapper):
     """
@@ -248,7 +274,7 @@ class ForceReach(Wrapper):
     def __init__(self,  **kwargs: dict[str, Any]):
         super().__init__(env = gym.make("FetchReach-v4", **kwargs))
         self.set_params()
-    
+
     def set_params(
             self,
             shoulder_pan_joint: float | None = None,
@@ -270,7 +296,7 @@ class ForceReach(Wrapper):
         self._change_params()
 
     def get_params(self):
-        return{
+        return {
             "shoulder_pan_joint": self.shoulder_pan_joint,
             "shoulder_lift_joint": self.shoulder_lift_joint,
             "upperarm_roll_joint": self.upperarm_roll_joint,
@@ -305,14 +331,14 @@ class ForceReach(Wrapper):
         if self.shoulder_pan_joint is not None:
             self.unwrapped.data.qfrc_applied[6] = shoulder_pan_joint  # type: ignore
         if self.shoulder_lift_joint is not None:
-             self.unwrapped.data.qfrc_applied[7] = shoulder_lift_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[7] = shoulder_lift_joint  # type: ignore
         if self.upperarm_roll_joint is not None:
-             self.unwrapped.data.qfrc_applied[8] = upperarm_roll_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[8] = upperarm_roll_joint  # type: ignore
         if self.elbow_flex_joint is not None:
-             self.unwrapped.data.qfrc_applied[9] = elbow_flex_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[9] = elbow_flex_joint  # type: ignore
         if self.forearm_roll_joint is not None:
-             self.unwrapped.data.qfrc_applied[10] = forearm_roll_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[10] = forearm_roll_joint  # type: ignore
         if self.wrist_flex_joint is not None:
-             self.unwrapped.data.qfrc_applied[11] = wrist_flex_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[11] = wrist_flex_joint  # type: ignore
         if self.wrist_roll_joint is not None:
-             self.unwrapped.data.qfrc_applied[12] = wrist_roll_joint  # type: ignore
+            self.unwrapped.data.qfrc_applied[12] = wrist_roll_joint  # type: ignore
