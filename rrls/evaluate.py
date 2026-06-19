@@ -19,7 +19,8 @@ from .envs import (
     RobustInvertedPendulum,
     RobustWalker2d,
     Walker2dParamsBound,
-    ReachParamsBound
+    ReachParamsBound,
+    ForceReach
 )
 
 
