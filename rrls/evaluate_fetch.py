@@ -10,6 +10,7 @@ from .envs import (
     ReachParamsBound,
     ForceReach
 )
+from concurrent.futures import ProcessPoolExecutor
 
 
 def generate_evaluation_set(
@@ -41,31 +42,38 @@ def generate_evaluation_set(
     for values in itertools.product(*parameters_values.values()):
         params = dict(zip(parameters_values.keys(), values))
         env = modified_env(**params)
+        #print(f"Finished creating '{modified_env} with {params}.")
         eval_envs.append(env)
-
+    
     return eval_envs
 
-
+#if __name__ == "__main__":
+    # data = {"modified_env": ForceReach, 
+    #         "param_bounds":ReachParamsBound.SHOULDER_FRICTION.value,
+    #         "nb_mesh_dim": 2
+    #         }
+    # with ProcessPoolExecutor() as executor:
+    #     EVALUATION_FORCE_REACH_SHOULDER = executor.map(generate_evaluation_set, data)
 EVALUATION_FORCE_REACH_SHOULDER = generate_evaluation_set(
     modified_env=ForceReach, # type: ignore
     param_bounds=ReachParamsBound.SHOULDER_FRICTION.value,
     nb_mesh_dim=10
 )
 
-EVALUATION_FORCE_REACH_ELBOW = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.ELBOW_FRICTION.value,
-    nb_mesh_dim=10
-)
+    # EVALUATION_FORCE_REACH_ELBOW = generate_evaluation_set(
+    #     modified_env=ForceReach, # type: ignore
+    #     param_bounds=ReachParamsBound.ELBOW_FRICTION.value,
+    #     nb_mesh_dim=2
+    # )
 
-EVALUATION_FORCE_REACH_WRIST = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.WRIST_FRICTION.value,
-    nb_mesh_dim=10
-)
+    # EVALUATION_FORCE_REACH_WRIST = generate_evaluation_set(
+    #     modified_env=ForceReach, # type: ignore
+    #     param_bounds=ReachParamsBound.WRIST_FRICTION.value,
+    #     nb_mesh_dim=2
+    # )
 
-EVALUATION_FORCE_REACH_ARM = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.WHOLE_ARM_FRICTION.value,
-    nb_mesh_dim=10
-)
+    # EVALUATION_FORCE_REACH_ARM = generate_evaluation_set(
+    #     modified_env=ForceReach, # type: ignore
+    #     param_bounds=ReachParamsBound.WHOLE_ARM_FRICTION.value,
+    #     nb_mesh_dim=2
+    # )

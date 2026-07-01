@@ -19,8 +19,6 @@ from .envs import (
     RobustInvertedPendulum,
     RobustWalker2d,
     Walker2dParamsBound,
-    ReachParamsBound,
-    ForceReach
 )
 
 
@@ -159,26 +157,3 @@ EVALUATION_ROBUST_HOPPER_3D = generate_evaluation_set(
     nb_mesh_dim=10,
 )
 
-EVALUATION_FORCE_REACH_SHOULDER = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.SHOULDER_FRICTION.value,
-    nb_mesh_dim=10
-)
-
-EVALUATION_FORCE_REACH_ELBOW = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.ELBOW_FRICTION.value,
-    nb_mesh_dim=10
-)
-
-EVALUATION_FORCE_REACH_WRIST = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.WRIST_FRICTION.value,
-    nb_mesh_dim=10
-)
-
-EVALUATION_FORCE_REACH_ARM = generate_evaluation_set(
-    modified_env=ForceReach, # type: ignore
-    param_bounds=ReachParamsBound.WHOLE_ARM_FRICTION.value,
-    nb_mesh_dim=10
-)
