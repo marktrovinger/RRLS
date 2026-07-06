@@ -41,6 +41,8 @@ def generate_evaluation_set(
     }
     for values in itertools.product(*parameters_values.values()):
         params = dict(zip(parameters_values.keys(), values))
+        # set the render mode now, so we can record video later
+        params["render_mode"] = "rgb_array"
         env = modified_env(**params)
         #print(f"Finished creating '{modified_env} with {params}.")
         eval_envs.append(env)
@@ -57,7 +59,7 @@ def generate_evaluation_set(
 EVALUATION_FORCE_REACH_SHOULDER = generate_evaluation_set(
     modified_env=ForceReach, # type: ignore
     param_bounds=ReachParamsBound.SHOULDER_FRICTION.value,
-    nb_mesh_dim=10
+    nb_mesh_dim=2
 )
 
     # EVALUATION_FORCE_REACH_ELBOW = generate_evaluation_set(
