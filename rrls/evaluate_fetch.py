@@ -11,6 +11,9 @@ from .envs import (
     ForceReach
 )
 from concurrent.futures import ProcessPoolExecutor
+from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines3.common.vec_env import VecVideoRecorder, DummyVecEnv
+import gymnasium as gym
 
 
 def generate_evaluation_set(
@@ -43,6 +46,8 @@ def generate_evaluation_set(
         params = dict(zip(parameters_values.keys(), values))
         # set the render mode now, so we can record video later
         params["render_mode"] = "rgb_array"
+        #env = DummyVecEnv([lambda: gym.make(modified_env(**params), render_mode="rgb_array")])
+        #env = make_vec_env(modified_env(**params))
         env = modified_env(**params)
         #print(f"Finished creating '{modified_env} with {params}.")
         eval_envs.append(env)

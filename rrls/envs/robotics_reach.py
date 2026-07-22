@@ -281,8 +281,17 @@ class ForceReach(Wrapper):
             wrist_flex_joint: float | None = None,
             wrist_roll_joint: float | None = None,
             **kwargs: dict[str, Any]):
-        super().__init__(env = gym.make("FetchReach-v4", **kwargs))
-        self.set_params()
+        super().__init__(env = gym.make("FetchReach-v4", **kwargs)) # type: ignore
+        self.set_params(
+            shoulder_pan_joint=shoulder_pan_joint,
+            shoulder_lift_joint = shoulder_lift_joint,
+            upperarm_roll_joint = upperarm_roll_joint,
+            elbow_flex_joint = elbow_flex_joint,
+            forearm_roll_joint = forearm_roll_joint,
+            wrist_flex_joint = wrist_flex_joint,
+            wrist_roll_joint = wrist_roll_joint
+        )
+        self._change_params()
 
     def set_params(
             self,
