@@ -254,7 +254,7 @@ class ForceReachDense(Wrapper):
 class ForceReach(Wrapper):
     """
     Force Reach environment. You can apply friction and damping to the robot's joints using the env.unwrapped.model.dof_frictionloss
-    or env.unwrapped.model.dof_damping attributes. This wraps the "sparse" reward environment. The parameters are:
+    or env.unwrapped.model.dof_damping attributes. This wraps the "sparse" reward environment. The joints that can be perturbed are:
         - shoulder_pan_joint
         - shoulder_lift_joint
         - upperarm_roll_joint
@@ -315,7 +315,7 @@ class ForceReach(Wrapper):
             wrist_roll_frictionloss = wrist_roll_frictionloss,
             wrist_roll_damping = wrist_roll_damping
         )
-        self._change_params()
+        #self._change_params()
 
     def set_params(
             self,
