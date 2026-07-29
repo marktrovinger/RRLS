@@ -253,8 +253,8 @@ class ForceReachDense(Wrapper):
 
 class ForceReach(Wrapper):
     """
-    Force Reach environment. You can apply forces to the robot's joints using the env.data.qfrc_applied
-    attribute. This wraps the "sparse" reward environment. The parameters are:
+    Force Reach environment. You can apply friction and damping to the robot's joints using the env.unwrapped.model.dof_frictionloss
+    or env.unwrapped.model.dof_damping attributes. This wraps the "sparse" reward environment. The parameters are:
         - shoulder_pan_joint
         - shoulder_lift_joint
         - upperarm_roll_joint
@@ -269,6 +269,16 @@ class ForceReach(Wrapper):
             "rgb_array",
             "depth_array",
         ],
+    }
+
+    ARM_DOF_INDICES = {
+        "shoulder_pan_joint":    6,
+        "shoulder_lift_joint":   7,
+        "upperarm_roll_joint":   8,
+        "elbow_flex_joint":      9,
+        "forearm_roll_joint":   10,
+        "wrist_flex_joint":     11,
+        "wrist_roll_joint":     12,
     }
 
     def __init__(
@@ -302,7 +312,7 @@ class ForceReach(Wrapper):
             forearm_roll_damping = forearm_roll_damping,
             wrist_flex_frictionloss = wrist_flex_frictionloss,
             wrist_flex_damping = wrist_flex_damping,
-            wrist_roll_frictionloss = wrist_roll_frictionloss
+            wrist_roll_frictionloss = wrist_roll_frictionloss,
             wrist_roll_damping = wrist_roll_damping
         )
         self._change_params()
@@ -388,17 +398,31 @@ class ForceReach(Wrapper):
             wrist_roll_frictionloss: float | None = None,
             wrist_roll_damping: float | None = None,
     ):
-        if self.shoulder_pan_joint is not None:
-            self.unwrapped.data.qfrc_applied[6] = shoulder_pan_joint  # type: ignore
-        if self.shoulder_lift_joint is not None:
-            self.unwrapped.data.qfrc_applied[7] = shoulder_lift_joint  # type: ignore
-        if self.upperarm_roll_joint is not None:
-            self.unwrapped.data.qfrc_applied[8] = upperarm_roll_joint  # type: ignore
-        if self.elbow_flex_joint is not None:
-            self.unwrapped.data.qfrc_applied[9] = elbow_flex_joint  # type: ignore
-        if self.forearm_roll_joint is not None:
-            self.unwrapped.data.qfrc_applied[10] = forearm_roll_joint  # type: ignore
-        if self.wrist_flex_joint is not None:
-            self.unwrapped.data.qfrc_applied[11] = wrist_flex_joint  # type: ignore
-        if self.wrist_roll_joint is not None:
-            self.unwrapped.data.qfrc_applied[12] = wrist_roll_joint  # type: ignore
+        if self.shoulder_pan_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["shoulder_pan_joint"]] = shoulder_pan_frictionloss  # type: ignore
+        if self.shoulder_pan_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["shoulder_pan_joint"]] = shoulder_pan_damping  # type: ignore
+        if self.shoulder_lift_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["shoulder_lift_joint"]] = shoulder_lift_frictionloss  # type: ignore
+        if self.shoulder_lift_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["shoulder_lift_joint"]] = shoulder_lift_damping  # type: ignore
+        if self.upperarm_roll_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["upperarm_roll_joint"]] = upperarm_roll_frictionloss  # type: ignore
+        if self.upperarm_roll_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["upperarm_roll_joint"]] = upperarm_roll_damping  # type: ignore
+        if self.elbow_flex_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["elbow_flex_joint"]] = elbow_flex_frictionloss  # type: ignore
+        if self.elbow_flex_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["elbow_flex_joint"]] = elbow_flex_damping  # type: ignore
+        if self.forearm_roll_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["forearm_roll_joint"]] = forearm_roll_frictionloss  # type: ignore
+        if self.forearm_roll_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["forearm_roll_joint"]] = forearm_roll_damping  # type: ignore
+        if self.wrist_flex_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["wrist_flex_joint"]] = wrist_flex_frictionloss  # type: ignore
+        if self.wrist_flex_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["wrist_flex_joint"]] = wrist_flex_damping  # type: ignore
+        if self.wrist_roll_frictionloss is not None:
+            self.self.unwrapped.model.dof_frictionloss[self.ARM_DOF_INDICES["wrist_roll_joint"]] = wrist_roll_frictionloss  # type: ignore
+        if self.wrist_roll_damping is not None:
+            self.self.unwrapped.model.dof_damping[self.ARM_DOF_INDICES["wrist_roll_joint"]] = wrist_roll_damping  # type: ignore
