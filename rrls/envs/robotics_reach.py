@@ -273,55 +273,90 @@ class ForceReach(Wrapper):
 
     def __init__(
             self,
-            shoulder_pan_joint: float | None = None,
-            shoulder_lift_joint: float | None = None,
-            upperarm_roll_joint: float | None = None,
-            elbow_flex_joint: float | None = None,
-            forearm_roll_joint: float | None = None,
-            wrist_flex_joint: float | None = None,
-            wrist_roll_joint: float | None = None,
+            shoulder_pan_frictionloss: float | None = None,
+            shoulder_pan_damping: float | None = None,
+            shoulder_lift_frictionloss: float | None = None,
+            shoulder_lift_damping: float | None = None,
+            elbow_flex_frictionloss: float | None = None,
+            elbow_flex_damping: float | None = None,
+            forearm_roll_frictionloss: float | None = None,
+            forearm_roll_damping: float | None = None,
+            upperarm_roll_frictionloss: float | None = None,
+            upperarm_roll_damping: float | None = None,
+            wrist_flex_frictionloss: float | None = None,
+            wrist_flex_damping: float | None = None,
+            wrist_roll_frictionloss: float | None = None,
+            wrist_roll_damping: float | None = None,
             **kwargs: dict[str, Any]):
         super().__init__(env = gym.make("FetchReach-v4", **kwargs)) # type: ignore
         self.set_params(
-            shoulder_pan_joint=shoulder_pan_joint,
-            shoulder_lift_joint = shoulder_lift_joint,
-            upperarm_roll_joint = upperarm_roll_joint,
-            elbow_flex_joint = elbow_flex_joint,
-            forearm_roll_joint = forearm_roll_joint,
-            wrist_flex_joint = wrist_flex_joint,
-            wrist_roll_joint = wrist_roll_joint
+            shoulder_pan_frictionloss =shoulder_pan_frictionloss,
+            shoulder_pan_damping = shoulder_pan_damping,
+            shoulder_lift_frictionloss = shoulder_lift_frictionloss,
+            shoulder_lift_damping = shoulder_lift_damping,
+            upperarm_roll_frictionloss = upperarm_roll_frictionloss,
+            upperarm_roll_damping = upperarm_roll_damping,
+            elbow_flex_frictionloss = elbow_flex_frictionloss,
+            elbow_flex_damping = elbow_flex_damping,
+            forearm_roll_frictionloss = forearm_roll_frictionloss,
+            forearm_roll_damping = forearm_roll_damping,
+            wrist_flex_frictionloss = wrist_flex_frictionloss,
+            wrist_flex_damping = wrist_flex_damping,
+            wrist_roll_frictionloss = wrist_roll_frictionloss
+            wrist_roll_damping = wrist_roll_damping
         )
         self._change_params()
 
     def set_params(
             self,
-            shoulder_pan_joint: float | None = None,
-            shoulder_lift_joint: float | None = None,
-            upperarm_roll_joint: float | None = None,
-            elbow_flex_joint: float | None = None,
-            forearm_roll_joint: float | None = None,
-            wrist_flex_joint: float | None = None,
-            wrist_roll_joint: float | None = None,
+            shoulder_pan_frictionloss: float | None = None,
+            shoulder_pan_damping: float | None = None,
+            shoulder_lift_frictionloss: float | None = None,
+            shoulder_lift_damping: float | None = None,
+            elbow_flex_frictionloss: float | None = None,
+            elbow_flex_damping: float | None = None,
+            upperarm_roll_frictionloss: float | None = None,
+            upperarm_roll_damping: float | None = None,
+            forearm_roll_frictionloss: float | None = None,
+            forearm_roll_damping: float | None = None,
+            wrist_flex_frictionloss: float | None = None,
+            wrist_flex_damping: float | None = None,
+            wrist_roll_frictionloss: float | None = None,
+            wrist_roll_damping: float | None = None,
 
     ):
-        self.shoulder_pan_joint = shoulder_pan_joint
-        self.shoulder_lift_joint = shoulder_lift_joint
-        self.upperarm_roll_joint = upperarm_roll_joint
-        self.elbow_flex_joint = elbow_flex_joint
-        self.forearm_roll_joint = forearm_roll_joint
-        self.wrist_flex_joint = wrist_flex_joint
-        self.wrist_roll_joint = wrist_roll_joint
+        self.shoulder_pan_frictionloss = shoulder_pan_frictionloss
+        self.shoulder_pan_damping = shoulder_pan_damping
+        self.shoulder_lift_frictionloss = shoulder_lift_frictionloss
+        self.shoulder_lift_damping = shoulder_lift_damping
+        self.upperarm_roll_frictionloss = upperarm_roll_frictionloss
+        self.upperarm_roll_damping = upperarm_roll_damping
+        self.elbow_flex_frictionloss = elbow_flex_frictionloss
+        self.elbow_flex_damping = elbow_flex_damping
+        self.forearm_roll_frictionloss = forearm_roll_frictionloss
+        self.forearm_roll_damping = forearm_roll_damping
+        self.wrist_flex_frictionloss = wrist_flex_frictionloss
+        self.wrist_flex_damping = wrist_flex_damping
+        self.wrist_roll_frictionloss = wrist_roll_frictionloss
+        self.wrist_roll_damping = wrist_roll_damping
         self._change_params()
 
     def get_params(self):
         return {
-            "shoulder_pan_joint": self.shoulder_pan_joint,
-            "shoulder_lift_joint": self.shoulder_lift_joint,
-            "upperarm_roll_joint": self.upperarm_roll_joint,
-            "elbow_flex_joint": self.elbow_flex_joint,
-            "forearm_roll_joint": self.forearm_roll_joint,
-            "wrist_flex_joint": self.wrist_flex_joint,
-            "wrist_roll_joint": self.wrist_roll_joint
+            "shoulder_pan_frictionloss": self.shoulder_pan_frictionloss,
+            "shoulder_lift_frictionloss": self.shoulder_lift_frictionloss,
+            "upperarm_roll_frictionloss": self.upperarm_roll_frictionloss,
+            "elbow_flex_frictionloss": self.elbow_flex_frictionloss,
+            "forearm_roll_frictionloss": self.forearm_roll_frictionloss,
+            "wrist_flex_frictionloss": self.wrist_flex_frictionloss,
+            "wrist_roll_frictionloss": self.wrist_roll_frictionloss,
+            "shoulder_pan_damping": self.shoulder_pan_damping,
+            "shoulder_lift_damping": self.shoulder_lift_damping,
+            "upperarm_roll_damping": self.upperarm_roll_damping,
+            "elbow_flex_damping": self.elbow_flex_damping,
+            "forearm_roll_damping": self.forearm_roll_damping,
+            "wrist_flex_damping": self.wrist_flex_damping,
+            "wrist_roll_damping": self.wrist_roll_damping
         }
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
@@ -338,13 +373,20 @@ class ForceReach(Wrapper):
     
     def _change_params(
             self,
-            shoulder_pan_joint: float | None = None,
-            shoulder_lift_joint: float | None = None,
-            upperarm_roll_joint: float | None = None,
-            elbow_flex_joint: float | None = None,
-            forearm_roll_joint: float | None = None,
-            wrist_flex_joint: float | None = None,
-            wrist_roll_joint: float | None = None,
+            shoulder_pan_frictionloss: float | None = None,
+            shoulder_pan_damping: float | None = None,
+            shoulder_lift_frictionloss: float | None = None,
+            shoulder_lift_damping: float | None = None,
+            elbow_flex_frictionloss: float | None = None,
+            elbow_flex_damping: float | None = None,
+            upperarm_roll_frictionloss: float | None = None,
+            upperarm_roll_damping: float | None = None,
+            forearm_roll_frictionloss: float | None = None,
+            forearm_roll_damping: float | None = None,
+            wrist_flex_frictionloss: float | None = None,
+            wrist_flex_damping: float | None = None,
+            wrist_roll_frictionloss: float | None = None,
+            wrist_roll_damping: float | None = None,
     ):
         if self.shoulder_pan_joint is not None:
             self.unwrapped.data.qfrc_applied[6] = shoulder_pan_joint  # type: ignore
