@@ -17,7 +17,7 @@ from .walker import ForceWalker2d, RobustWalker2d, Walker2dParamsBound
 from .robotics_reach import (
     ForceReach, 
     ForceReachDense,
-    RobustReach,
+    #RobustReach,
     RobustReachDense,
     ReachParamsBound
 )
@@ -39,6 +39,7 @@ from .robotics_pickandplace import (
     RobustPickAndPlace,
     RobustPickAndPlaceDense
 )
+from .fetch import (RobustReach)
 
 __all__ = [
     "AntParamsBound",
