@@ -79,8 +79,10 @@ class RobustReach(Wrapper):
             wrist_flex_damping: float | None = None,
             wrist_roll_frictionloss: float | None = None,
             wrist_roll_damping: float | None = None,
+            env_id = "FetchReach-v4",
             **kwargs: dict[str, Any]):
-        super().__init__(env = gym.make("FetchReach-v4", **kwargs)) # type: ignore
+        env = gym.make(env_id, **kwargs) # type: ignore
+        super().__init__(env=env) # type: ignore
         self.set_params(
             shoulder_pan_frictionloss =shoulder_pan_frictionloss,
             shoulder_pan_damping = shoulder_pan_damping,
