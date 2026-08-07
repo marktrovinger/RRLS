@@ -52,6 +52,16 @@ class RobustReach(Wrapper):
             "depth_array",
         ],
     }
+    _frictionloss = {}
+    _damping = {}
+    _armature = {}
+
+    # constants for scale calculations
+    DELTA_F_MAX = 0.05
+    DELTA_D_MAX = 0.25
+    DELTA_D_MAX_FOREARM = 1.76
+    DELTA_A_MAX = 0.20
+    DELTA_A_MAX_FOREARM = 0.55
 
     ARM_DOF_INDICES = {
         "shoulder_pan":    6,
@@ -62,23 +72,39 @@ class RobustReach(Wrapper):
         "wrist_flex":     11,
         "wrist_roll":     12,
     }
+    ARM_JOINTS = [
+    "shoulder_pan",
+    "shoulder_lift",
+    "upperarm_roll",
+    "elbow_flex",
+    "forearm_roll",
+    "wrist_flex",
+    "wrist_roll",
+    ]
 
     def __init__(
             self,
             shoulder_pan_frictionloss: float | None = None,
             shoulder_pan_damping: float | None = None,
+            shoulder_pan_armature: float | None = None,
             shoulder_lift_frictionloss: float | None = None,
             shoulder_lift_damping: float | None = None,
+            shoulder_lift_armature: float | None = None,
             elbow_flex_frictionloss: float | None = None,
             elbow_flex_damping: float | None = None,
+            elbow_flex_armature: float | None = None,
             forearm_roll_frictionloss: float | None = None,
             forearm_roll_damping: float | None = None,
+            forearm_roll_armature: float | None = None,
             upperarm_roll_frictionloss: float | None = None,
             upperarm_roll_damping: float | None = None,
+            upperarm_roll_armature: float | None = None,
             wrist_flex_frictionloss: float | None = None,
             wrist_flex_damping: float | None = None,
+            wrist_flex_armature: float | None = None,
             wrist_roll_frictionloss: float | None = None,
             wrist_roll_damping: float | None = None,
+            wrist_roll_armature: float | None = None,
             env_id = "FetchReach-v4",
             **kwargs: dict[str, Any]):
         env = gym.make(env_id, **kwargs) # type: ignore
@@ -86,85 +112,110 @@ class RobustReach(Wrapper):
         self.set_params(
             shoulder_pan_frictionloss =shoulder_pan_frictionloss,
             shoulder_pan_damping = shoulder_pan_damping,
+            shoulder_pan_armature = shoulder_pan_armature,
             shoulder_lift_frictionloss = shoulder_lift_frictionloss,
             shoulder_lift_damping = shoulder_lift_damping,
+            shoulder_lift_armature = shoulder_lift_armature,
             upperarm_roll_frictionloss = upperarm_roll_frictionloss,
             upperarm_roll_damping = upperarm_roll_damping,
+            upperarm_roll_armature = upperarm_roll_armature,
             elbow_flex_frictionloss = elbow_flex_frictionloss,
             elbow_flex_damping = elbow_flex_damping,
+            elbow_flex_armature = elbow_flex_armature,
             forearm_roll_frictionloss = forearm_roll_frictionloss,
             forearm_roll_damping = forearm_roll_damping,
+            forearm_roll_armature = forearm_roll_armature,
             wrist_flex_frictionloss = wrist_flex_frictionloss,
             wrist_flex_damping = wrist_flex_damping,
+            wrist_flex_armature = wrist_flex_armature,
             wrist_roll_frictionloss = wrist_roll_frictionloss,
-            wrist_roll_damping = wrist_roll_damping
+            wrist_roll_damping = wrist_roll_damping,
+            wrist_roll_armature = wrist_roll_armature
         )
 
     def set_params(
             self,
             **kwargs
     ):
-        self.shoulder_pan_frictionloss = getattr(kwargs, 
-                                                 "shoulder_pan_frictionloss", 
-                                                 DEFAULT_PARAMS["shoulder_pan_frictionloss"]) or getattr(kwargs, "shoulder_pan_frictionloss_scale", DEFAULT_PARAMS["shoulder_pan_frictionloss"])
-        self.shoulder_pan_damping = getattr(kwargs, 
-                                                 "shoulder_pan_damping", 
-                                                 DEFAULT_PARAMS["shoulder_pan_damping"]) or getattr(kwargs, "shoulder_pan_damping_scale", DEFAULT_PARAMS["shoulder_pan_damping"])
-        self.shoulder_lift_frictionloss = getattr(kwargs, 
-                                                 "shoulder_lift_frictionloss", 
-                                                 DEFAULT_PARAMS["shoulder_lift_frictionloss"]) or getattr(kwargs, "shoulder_lift_frictionloss_scale", DEFAULT_PARAMS["shoulder_lift_frictionloss"])
-        self.shoulder_lift_damping = getattr(kwargs, 
-                                                 "shoulder_lift_damping", 
-                                                 DEFAULT_PARAMS["shoulder_lift_damping"]) or getattr(kwargs, "shoulder_lift_damping_scale", DEFAULT_PARAMS["shoulder_lift_damping"])
-        self.upperarm_roll_frictionloss = getattr(kwargs, 
-                                                 "upperarm_roll_frictionloss", 
-                                                 DEFAULT_PARAMS["upperarm_roll_frictionloss"]) or getattr(kwargs, "upperarm_roll_frictionloss_scale", DEFAULT_PARAMS["upperarm_roll_frictionloss"])
-        self.upperarm_roll_damping = getattr(kwargs, 
-                                                 "upperarm_roll_damping", 
-                                                 DEFAULT_PARAMS["upperarm_roll_damping"]) or getattr(kwargs, "upperarm_roll_damping_scale", DEFAULT_PARAMS["upperarm_roll_damping"])
-        self.elbow_flex_frictionloss = getattr(kwargs, 
-                                                 "elbow_flex_frictionloss", 
-                                                 DEFAULT_PARAMS["elbow_flex_frictionloss"]) or getattr(kwargs, "elbow_flex_frictionloss_scale", DEFAULT_PARAMS["elbow_flex_frictionloss"])
-        self.elbow_flex_damping = getattr(kwargs, 
-                                                 "elbow_flex_damping", 
-                                                 DEFAULT_PARAMS["elbow_flex_damping"]) or getattr(kwargs, "elbow_flex_damping_scale", DEFAULT_PARAMS["elbow_flex_damping"])
-        self.forearm_roll_frictionloss = getattr(kwargs, 
-                                                 "forearm_roll_frictionloss", 
-                                                 DEFAULT_PARAMS["forearm_roll_frictionloss"]) or getattr(kwargs, "forearm_roll_frictionloss_scale", DEFAULT_PARAMS["forearm_roll_frictionloss"])
-        self.forearm_roll_damping = getattr(kwargs, 
-                                                 "forearm_roll_damping", 
-                                                 DEFAULT_PARAMS["forearm_roll_damping"]) or getattr(kwargs, "forearm_roll_damping_scale", DEFAULT_PARAMS["forearm_roll_damping"])
-        self.wrist_flex_frictionloss = getattr(kwargs, 
-                                                 "wrist_flex_frictionloss", 
-                                                 DEFAULT_PARAMS["wrist_flex_frictionloss"]) or getattr(kwargs, "wrist_flex_frictionloss_scale", DEFAULT_PARAMS["wrist_flex_frictionloss"])
-        self.wrist_flex_damping = getattr(kwargs, 
-                                                 "wrist_flex_damping", 
-                                                 DEFAULT_PARAMS["wrist_flex_damping"]) or getattr(kwargs, "wrist_flex_damping_scale", DEFAULT_PARAMS["wrist_flex_damping"])
-        self.wrist_roll_frictionloss = getattr(kwargs, 
-                                                 "wrist_roll_frictionloss", 
-                                                 DEFAULT_PARAMS["wrist_roll_frictionloss"]) or getattr(kwargs, "wrist_roll_frictionloss_scale", DEFAULT_PARAMS["wrist_roll_frictionloss"])
-        self.wrist_roll_damping = getattr(kwargs, 
-                                                 "wrist_roll_damping", 
-                                                 DEFAULT_PARAMS["wrist_roll_damping"]) or getattr(kwargs, "wrist_roll_damping_scale", DEFAULT_PARAMS["wrist_roll_damping"])
-        self._change_params()
+        for joint in self.ARM_JOINTS:
+            joint_key = f"{joint}_frictionloss"
+            if joint_key in kwargs and kwargs[joint_key] is not None:
+                self._frictionloss[joint_key] = kwargs[joint_key] 
+            elif "frictionloss_scale" in kwargs:
+                self._frictionloss[joint_key] = self.DELTA_F_MAX * kwargs["frictionloss_scale"]
+            else:
+                self._frictionloss[joint_key] = DEFAULT_PARAMS[joint_key]
+
+        for joint in self.ARM_JOINTS:
+            joint_key = f"{joint}_damping"
+            if joint_key in kwargs and kwargs[joint_key] is not None:
+                self._damping[joint_key] = kwargs[joint_key]
+            elif "damping_scale" in kwargs:
+                if "forearm" not in joint_key:
+                    self._damping[joint_key] = self.DELTA_D_MAX * kwargs[joint_key] 
+                else:
+                    self._damping[joint_key] = self.DELTA_D_MAX_FOREARM * kwargs[joint_key]
+            else:
+                self._damping[joint_key] = DEFAULT_PARAMS[joint_key]
+
+        for joint in self.ARM_JOINTS:
+            joint_key = f"{joint}_armature"
+            if joint_key in kwargs and kwargs[joint_key] is not None:
+                self._armature[joint_key] = kwargs[joint_key]
+            elif "damping_scale" in kwargs:
+                if "forearm" not in joint_key:
+                    self._armature[joint_key] = self.DELTA_A_MAX * kwargs[joint_key]
+                else:
+                    self._armature[joint_key] = self.DELTA_A_MAX_FOREARM * kwargs[joint_key]
+            else:
+                self._armature[joint_key] = DEFAULT_PARAMS[joint_key]
+
+        # self.shoulder_pan_frictionloss = getattr(kwargs, 
+        #                                          "shoulder_pan_frictionloss", 
+        #                                          DEFAULT_PARAMS["shoulder_pan_frictionloss"]) or getattr(kwargs, "shoulder_pan_frictionloss_scale", DEFAULT_PARAMS["shoulder_pan_frictionloss"])
+        # self.shoulder_pan_damping = getattr(kwargs, 
+        #                                          "shoulder_pan_damping", 
+        #                                          DEFAULT_PARAMS["shoulder_pan_damping"]) or getattr(kwargs, "shoulder_pan_damping_scale", DEFAULT_PARAMS["shoulder_pan_damping"])
+        # self.shoulder_lift_frictionloss = getattr(kwargs, 
+        #                                          "shoulder_lift_frictionloss", 
+        #                                          DEFAULT_PARAMS["shoulder_lift_frictionloss"]) or getattr(kwargs, "shoulder_lift_frictionloss_scale", DEFAULT_PARAMS["shoulder_lift_frictionloss"])
+        # self.shoulder_lift_damping = getattr(kwargs, 
+        #                                          "shoulder_lift_damping", 
+        #                                          DEFAULT_PARAMS["shoulder_lift_damping"]) or getattr(kwargs, "shoulder_lift_damping_scale", DEFAULT_PARAMS["shoulder_lift_damping"])
+        # self.upperarm_roll_frictionloss = getattr(kwargs, 
+        #                                          "upperarm_roll_frictionloss", 
+        #                                          DEFAULT_PARAMS["upperarm_roll_frictionloss"]) or getattr(kwargs, "upperarm_roll_frictionloss_scale", DEFAULT_PARAMS["upperarm_roll_frictionloss"])
+        # self.upperarm_roll_damping = getattr(kwargs, 
+        #                                          "upperarm_roll_damping", 
+        #                                          DEFAULT_PARAMS["upperarm_roll_damping"]) or getattr(kwargs, "upperarm_roll_damping_scale", DEFAULT_PARAMS["upperarm_roll_damping"])
+        # self.elbow_flex_frictionloss = getattr(kwargs, 
+        #                                          "elbow_flex_frictionloss", 
+        #                                          DEFAULT_PARAMS["elbow_flex_frictionloss"]) or getattr(kwargs, "elbow_flex_frictionloss_scale", DEFAULT_PARAMS["elbow_flex_frictionloss"])
+        # self.elbow_flex_damping = getattr(kwargs, 
+        #                                          "elbow_flex_damping", 
+        #                                          DEFAULT_PARAMS["elbow_flex_damping"]) or getattr(kwargs, "elbow_flex_damping_scale", DEFAULT_PARAMS["elbow_flex_damping"])
+        # self.forearm_roll_frictionloss = getattr(kwargs, 
+        #                                          "forearm_roll_frictionloss", 
+        #                                          DEFAULT_PARAMS["forearm_roll_frictionloss"]) or getattr(kwargs, "forearm_roll_frictionloss_scale", DEFAULT_PARAMS["forearm_roll_frictionloss"])
+        # self.forearm_roll_damping = getattr(kwargs, 
+        #                                          "forearm_roll_damping", 
+        #                                          DEFAULT_PARAMS["forearm_roll_damping"]) or getattr(kwargs, "forearm_roll_damping_scale", DEFAULT_PARAMS["forearm_roll_damping"])
+        # self.wrist_flex_frictionloss = getattr(kwargs, 
+        #                                          "wrist_flex_frictionloss", 
+        #                                          DEFAULT_PARAMS["wrist_flex_frictionloss"]) or getattr(kwargs, "wrist_flex_frictionloss_scale", DEFAULT_PARAMS["wrist_flex_frictionloss"])
+        # self.wrist_flex_damping = getattr(kwargs, 
+        #                                          "wrist_flex_damping", 
+        #                                          DEFAULT_PARAMS["wrist_flex_damping"]) or getattr(kwargs, "wrist_flex_damping_scale", DEFAULT_PARAMS["wrist_flex_damping"])
+        # self.wrist_roll_frictionloss = getattr(kwargs, 
+        #                                          "wrist_roll_frictionloss", 
+        #                                          DEFAULT_PARAMS["wrist_roll_frictionloss"]) or getattr(kwargs, "wrist_roll_frictionloss_scale", DEFAULT_PARAMS["wrist_roll_frictionloss"])
+        # self.wrist_roll_damping = getattr(kwargs, 
+        #                                          "wrist_roll_damping", 
+        #                                          DEFAULT_PARAMS["wrist_roll_damping"]) or getattr(kwargs, "wrist_roll_damping_scale", DEFAULT_PARAMS["wrist_roll_damping"])
+        # self._change_params()
 
     def get_params(self):
-        return {
-            "shoulder_pan_frictionloss": self.shoulder_pan_frictionloss,
-            "shoulder_lift_frictionloss": self.shoulder_lift_frictionloss,
-            "upperarm_roll_frictionloss": self.upperarm_roll_frictionloss,
-            "elbow_flex_frictionloss": self.elbow_flex_frictionloss,
-            "forearm_roll_frictionloss": self.forearm_roll_frictionloss,
-            "wrist_flex_frictionloss": self.wrist_flex_frictionloss,
-            "wrist_roll_frictionloss": self.wrist_roll_frictionloss,
-            "shoulder_pan_damping": self.shoulder_pan_damping,
-            "shoulder_lift_damping": self.shoulder_lift_damping,
-            "upperarm_roll_damping": self.upperarm_roll_damping,
-            "elbow_flex_damping": self.elbow_flex_damping,
-            "forearm_roll_damping": self.forearm_roll_damping,
-            "wrist_flex_damping": self.wrist_flex_damping,
-            "wrist_roll_damping": self.wrist_roll_damping
-        }
+        return self._frictionloss | self._damping | self._armature
 
     def reset(self, *, seed: int | None = None, options: dict | None = None):
         if options is not None:
