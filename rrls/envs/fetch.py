@@ -152,9 +152,9 @@ class RobustReach(Wrapper):
                 self._damping[joint_key] = kwargs[joint_key]
             elif "damping_scale" in kwargs:
                 if "forearm" not in joint_key:
-                    self._damping[joint_key] = self.DELTA_D_MAX * kwargs[joint_key] 
+                    self._damping[joint_key] = self.DELTA_D_MAX * kwargs["damping_scale"] 
                 else:
-                    self._damping[joint_key] = self.DELTA_D_MAX_FOREARM * kwargs[joint_key]
+                    self._damping[joint_key] = self.DELTA_D_MAX_FOREARM * kwargs["damping_scale"]
             else:
                 self._damping[joint_key] = DEFAULT_PARAMS[joint_key]
 
@@ -162,11 +162,11 @@ class RobustReach(Wrapper):
             joint_key = f"{joint}_armature"
             if joint_key in kwargs and kwargs[joint_key] is not None:
                 self._armature[joint_key] = kwargs[joint_key]
-            elif "damping_scale" in kwargs:
+            elif "armature_scale" in kwargs:
                 if "forearm" not in joint_key:
-                    self._armature[joint_key] = self.DELTA_A_MAX * kwargs[joint_key]
+                    self._armature[joint_key] = self.DELTA_A_MAX * kwargs["armature_scale"]
                 else:
-                    self._armature[joint_key] = self.DELTA_A_MAX_FOREARM * kwargs[joint_key]
+                    self._armature[joint_key] = self.DELTA_A_MAX_FOREARM * kwargs["armature_scale"]
             else:
                 self._armature[joint_key] = DEFAULT_PARAMS[joint_key]
 
