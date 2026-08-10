@@ -7,7 +7,10 @@ import gymnasium as gym
 from gymnasium import Wrapper
 import gymnasium_robotics 
 
-FetchParamsBound = {}
+class FetchParamsBound(Enum):
+    BEARING_FRICTION_1D = {
+        "frictionloss_scale": 0.3
+    }
 
 DEFAULT_PARAMS = {
     "shoulder_pan_frictionloss": 0.0,
