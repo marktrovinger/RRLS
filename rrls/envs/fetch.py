@@ -11,7 +11,18 @@ gym.register_envs(gymnasium_robotics)
 
 class FetchParamsBound(Enum):
     BEARING_FRICTION_1D = {
-        "frictionloss_scale": 0.3
+        "frictionloss_scale": [0.0, 1.0]
+    }
+    BEARING_FRICTION_2D = {
+        "frictionloss_scale": [0.0, 1.0],
+        "forearm_roll_damping": [3.5247, 5.28]
+    }
+    BACKLASH_1D = {
+        "armature_scale": [0.0, 1.0]
+    }
+    COMBINED_2D = {
+        "frictionloss_scale": [0.0, 1.0],
+        "armature_scale": [0.0, 1.0]
     }
 
 DEFAULT_PARAMS = {
