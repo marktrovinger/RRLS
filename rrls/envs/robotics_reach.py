@@ -53,7 +53,7 @@ class RobustReach(Wrapper):
         self,
         **kwargs: dict[str, Any],
     ):
-        super().__init__(env = gym.make("FetchReach-v4", **kwargs))
+        super().__init__(env = gym.make("FetchReach-v4", **kwargs)) # type: ignore
         self.set_params()
     
     def set_params(
