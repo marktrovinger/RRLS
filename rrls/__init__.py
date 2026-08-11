@@ -27,8 +27,8 @@ def register_robotics_envs():
         disable_env_checker=True,
     )
     register(
-        id = "rrls/robust-reach-v0",
-        entry_point="rrls.envs.fetch:RobustReach",
+        id = "rrls/robust-fetch-v0",
+        entry_point="rrls.envs.fetch:RobustFetch",
         order_enforce=False,
         disable_env_checker=True,
     )

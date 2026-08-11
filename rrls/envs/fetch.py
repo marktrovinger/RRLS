@@ -7,6 +7,8 @@ import gymnasium as gym
 from gymnasium import Wrapper
 import gymnasium_robotics 
 
+gym.register_envs(gymnasium_robotics)
+
 class FetchParamsBound(Enum):
     BEARING_FRICTION_1D = {
         "frictionloss_scale": 0.3
@@ -36,9 +38,9 @@ DEFAULT_PARAMS = {
     "wrist_roll_armature": 1.0
 }
 
-class RobustReach(Wrapper):
+class RobustFetch(Wrapper):
     """
-    Robust Reach environment. You can apply friction, damping and armature moment of intertia changes to the robot's joints using the env.unwrapped.model.dof_frictionloss
+    Robust Fetch environment. You can apply friction, damping and armature moment of intertia changes to the robot's joints using the env.unwrapped.model.dof_frictionloss
     or env.unwrapped.model.dof_damping attributes. This wraps the "sparse" reward environment. The joints that can be perturbed are:
         - shoulder_pan_joint
         - shoulder_lift_joint
@@ -110,8 +112,8 @@ class RobustReach(Wrapper):
             wrist_roll_armature: float | None = None,
             env_id = "FetchReach-v4",
             **kwargs: dict[str, Any]):
-        env = gym.make(env_id, **kwargs) # type: ignore
-        super().__init__(env=env) # type: ignore
+        
+        super().__init__(env=gym.make(env_id)) # type: ignore
         self.set_params(
             shoulder_pan_frictionloss =shoulder_pan_frictionloss,
             shoulder_pan_damping = shoulder_pan_damping,
@@ -133,7 +135,8 @@ class RobustReach(Wrapper):
             wrist_flex_armature = wrist_flex_armature,
             wrist_roll_frictionloss = wrist_roll_frictionloss,
             wrist_roll_damping = wrist_roll_damping,
-            wrist_roll_armature = wrist_roll_armature
+            wrist_roll_armature = wrist_roll_armature,
+            **kwargs
         )
 
     def set_params(
