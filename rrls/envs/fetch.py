@@ -68,9 +68,6 @@ class RobustFetch(Wrapper):
             "depth_array",
         ],
     }
-    _frictionloss = {}
-    _damping = {}
-    _armature = {}
 
     # constants for scale calculations
     DELTA_F_MAX = 0.05
@@ -125,6 +122,9 @@ class RobustFetch(Wrapper):
             **kwargs: dict[str, Any]):
         
         super().__init__(env=gym.make(env_id)) # type: ignore
+        self._frictionloss = {}   
+        self._damping = {}        
+        self._armature = {}       
         self.set_params(
             shoulder_pan_frictionloss =shoulder_pan_frictionloss,
             shoulder_pan_damping = shoulder_pan_damping,
