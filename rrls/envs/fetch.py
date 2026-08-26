@@ -118,7 +118,7 @@ class RobustFetch(Wrapper):
             wrist_roll_frictionloss: float | None = None,
             wrist_roll_damping: float | None = None,
             wrist_roll_armature: float | None = None,
-            env_id = "FetchReach-v4",
+            env_id = "FetchPush-v4",
             **kwargs: dict[str, Any]):
         
         super().__init__(env=gym.make(env_id)) # type: ignore
@@ -159,7 +159,7 @@ class RobustFetch(Wrapper):
             if joint_key in kwargs and kwargs[joint_key] is not None:
                 self._frictionloss[joint_key] = kwargs[joint_key] 
             elif "frictionloss_scale" in kwargs:
-                self._frictionloss[joint_key] = self.DELTA_F_MAX * kwargs["frictionloss_scale"]
+                self._frictionloss[joint_key] = DEFAULT_PARAMS[joint_key] + self.DELTA_F_MAX * kwargs["frictionloss_scale"]
             else:
                 self._frictionloss[joint_key] = DEFAULT_PARAMS[joint_key]
 
@@ -169,9 +169,9 @@ class RobustFetch(Wrapper):
                 self._damping[joint_key] = kwargs[joint_key]
             elif "damping_scale" in kwargs:
                 if "forearm" not in joint_key:
-                    self._damping[joint_key] = self.DELTA_D_MAX * kwargs["damping_scale"] 
+                    self._damping[joint_key] = DEFAULT_PARAMS[joint_key] + self.DELTA_D_MAX * kwargs["damping_scale"] if kwargs["damping_scale"] > 0.0 else DEFAULT_PARAMS[joint_key]
                 else:
-                    self._damping[joint_key] = self.DELTA_D_MAX_FOREARM * kwargs["damping_scale"]
+                    self._damping[joint_key] = DEFAULT_PARAMS[joint_key] + self.DELTA_D_MAX_FOREARM * kwargs["damping_scale"] if kwargs["damping_scale"] > 0.0 else DEFAULT_PARAMS[joint_key]
             else:
                 self._damping[joint_key] = DEFAULT_PARAMS[joint_key]
 
@@ -181,9 +181,9 @@ class RobustFetch(Wrapper):
                 self._armature[joint_key] = kwargs[joint_key]
             elif "armature_scale" in kwargs:
                 if "forearm" not in joint_key:
-                    self._armature[joint_key] = self.DELTA_A_MAX * kwargs["armature_scale"]
+                    self._armature[joint_key] = DEFAULT_PARAMS[joint_key] + self.DELTA_A_MAX * kwargs["armature_scale"] if kwargs["armature_scale"] > 0.0 else DEFAULT_PARAMS[joint_key]
                 else:
-                    self._armature[joint_key] = self.DELTA_A_MAX_FOREARM * kwargs["armature_scale"]
+                    self._armature[joint_key] = DEFAULT_PARAMS[joint_key] + self.DELTA_A_MAX_FOREARM * kwargs["armature_scale"] if kwargs["armature_scale"] > 0.0 else DEFAULT_PARAMS[joint_key]
             else:
                 self._armature[joint_key] = DEFAULT_PARAMS[joint_key]
 
