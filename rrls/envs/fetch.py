@@ -209,6 +209,9 @@ class RobustFetch(Wrapper):
     
     def _change_params(self):
         params = self.get_params()
+        # test if the values are nominal
+        if params == DEFAULT_PARAMS:
+            return
         similar_joints = []
         for idx_key, idx in self.ARM_DOF_INDICES.items():
             similar_joints.clear()
