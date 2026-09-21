@@ -24,6 +24,13 @@ class FetchParamsBound(Enum):
         "frictionloss_scale": [0.0, 1.0],
         "armature_scale": [0.0, 1.0]
     }
+    BEARING_FRICTION_SEVERE_1D = {
+        "frictionloss_scale": [0.0, 2.0]
+    }
+    BACKLASH_SEVERE_1D = {
+        "armature_scale": [0.0, 2.0]
+    }
+
 
 DEFAULT_PARAMS = {
     "shoulder_pan_frictionloss": 0.0,
@@ -209,9 +216,6 @@ class RobustFetch(Wrapper):
     
     def _change_params(self):
         params = self.get_params()
-        # test if the values are nominal
-        if params == DEFAULT_PARAMS:
-            return
         similar_joints = []
         for idx_key, idx in self.ARM_DOF_INDICES.items():
             similar_joints.clear()
