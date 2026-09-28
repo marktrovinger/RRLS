@@ -77,10 +77,10 @@ class RobustFetch(Wrapper):
     }
 
     # constants for scale calculations
-    DELTA_F_MAX = 0.05
-    DELTA_D_MAX = 0.25
+    DELTA_F_MAX = 3.0
+    DELTA_D_MAX = 450.0
     DELTA_D_MAX_FOREARM = 1.76
-    DELTA_A_MAX = 0.20
+    DELTA_A_MAX = 9.0
     DELTA_A_MAX_FOREARM = 0.55
 
     ARM_DOF_INDICES = {
