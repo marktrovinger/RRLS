@@ -39,7 +39,7 @@ from .robotics_pickandplace import (
     RobustPickAndPlace,
     RobustPickAndPlaceDense
 )
-from .fetch import (RobustFetch, FetchParamsBound)
+from .fetch import (RobustFetch, FetchParamsBoundSevere, FetchParamsBoundPhysicallyInformed)
 
 __all__ = [
     "AntParamsBound",
@@ -51,7 +51,8 @@ __all__ = [
     "ReachParamsBound",
     "RobustAnt",
     "RobustFetch",
-    "FetchParamsBound",
+    "FetchParamsBoundPhysicallyInformed",
+    "FetchParamsBoundSevere",
     "RobustReachDense",
     "RobustSlide",
     "RobustSlideDense",
