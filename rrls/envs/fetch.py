@@ -9,7 +9,28 @@ import gymnasium_robotics
 
 gym.register_envs(gymnasium_robotics)
 
-class FetchParamsBound(Enum):
+class FetchParamsBoundSevere(Enum):
+    """
+    A more severe degradation, sweeping from 10x down.
+    """
+    BEARING_FRICTION_1D = {
+        "frictionloss_scale": [0.0, 10.0]
+    }
+    BACKLASH_1D = {
+        "armature_scale": [0.0, 10.0]
+    }
+    COMBINED_2D = {
+        "frictionloss_scale": [0.0, 10.0],
+        "armature_scale": [0.0, 10.0]
+    }
+    
+
+
+
+class FetchParamsBoundPhysicallyInformed(Enum):
+    """
+    A physically informed (Ruderman 2009) scale for degradation. 
+    """
     BEARING_FRICTION_1D = {
         "frictionloss_scale": [0.0, 1.0]
     }
