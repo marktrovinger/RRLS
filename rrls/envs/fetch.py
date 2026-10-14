@@ -148,7 +148,8 @@ class RobustFetch(Wrapper):
         super().__init__(env=gym.make(env_id)) # type: ignore
         self._frictionloss = {}   
         self._damping = {}        
-        self._armature = {}       
+        self._armature = {}   
+        self._current_params: dict = {}    
         self.set_params(
             shoulder_pan_frictionloss =shoulder_pan_frictionloss,
             shoulder_pan_damping = shoulder_pan_damping,
@@ -178,6 +179,10 @@ class RobustFetch(Wrapper):
             self,
             **kwargs
     ):
+        # Persist the kwargs so reset() can re-apply them instead of reverting
+        # to DEFAULT_PARAMS.  Filter out None values so scale keys dominate on
+        # the next reset call.
+        self._current_params = {k: v for k, v in kwargs.items() if v is not None}
         for joint in self.ARM_JOINTS:
             joint_key = f"{joint}_frictionloss"
             if joint_key in kwargs and kwargs[joint_key] is not None:
@@ -220,8 +225,10 @@ class RobustFetch(Wrapper):
         if options is not None:
             self.set_params(**options)
         else:
-            # this indicates that we are doing a clean reset
-            self.set_params(**DEFAULT_PARAMS)
+            # Re-apply the last set_params call so grid-point parameters
+            # survive across episode resets.  Fall back to DEFAULT_PARAMS only
+            # if no params have been set yet (nominal env construction path).
+            self.set_params(**(self._current_params if self._current_params else DEFAULT_PARAMS))
         obs, info = self.env.reset(seed=seed, options=options)
         info.update(self.get_params())
         return obs, info
